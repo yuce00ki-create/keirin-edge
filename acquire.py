@@ -6,7 +6,7 @@ from pathlib import Path
 from urllib.request import Request, urlopen
 
 SOURCE = "https://api.github.com/repos/Kenseimk/keirin-data/contents/keirin_data?ref=main"
-PATTERN = re.compile(r"^(20\\d{2})_(0[1-9]|1[0-2])_keirin\\.csv$")
+PATTERN = re.compile(r"^(20\d{2})_(0[1-9]|1[0-2])_keirin\.csv$")
 NEEDED = {"race_id", "date", "banum", "rank", "race_score"}
 
 def download(url, tries=3):
