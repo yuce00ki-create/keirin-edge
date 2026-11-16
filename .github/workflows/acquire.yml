@@ -1,0 +1,29 @@
+name: Fetch and audit keirin data
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'acquire.py'
+      - '.github/workflows/acquire.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  acquire:
+    runs-on: ubuntu-latest
+    timeout-minutes: 80
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Fetch public race data through 2026-11-16
+        run: python acquire.py --cutoff 2026-11-16 --out output
+      - name: Upload audit and downloaded CSV
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: keirin-public-data
+          path: output/
+          retention-days: 7
+          if-no-files-found: warn
